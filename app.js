@@ -9,13 +9,14 @@ app.use(express.json());
 
 // Define a simple route
 app.get("/", (req, res) => {
-  res.send("Hello, World! am walking my journey as a Senior Devops Engr ");
+  res.send("Hello, World! am walking my journey as a Senior Devops Engr1  ");
 });
 
 // Another route for demonstration
 app.get("/api", (req, res) => {
   res.json({
-    message: "Welcome to the API! i love you and you doing well thanks ",
+    message:
+      "Welcome to the API! i love you and you doing well thanks  brozay ",
   });
 });
 
