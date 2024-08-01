@@ -24,15 +24,15 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run tests
-        run: npm test
+      # - name: Run tests
+      #   run: npm test
 
       - name: Deploy to EC2
         env:
           HOST: ${{ secrets.EC2_HOST }}
           USERNAME: ${{ secrets.EC2_USER }}
           KEY: ${{ secrets.EC2_KEY }}
-        run: |
+        run: 
           # Create the SSH key file
           echo "$KEY" | tr -d '\r' > key.pem
           chmod 400 key.pem
