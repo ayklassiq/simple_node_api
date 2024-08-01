@@ -14,7 +14,9 @@ app.get("/", (req, res) => {
 
 // Another route for demonstration
 app.get("/api", (req, res) => {
-  res.json({ message: "Welcome to the API! " });
+  res.json({
+    message: "Welcome to the API! i love you and you doing well thanks ",
+  });
 });
 
 // Start the server
