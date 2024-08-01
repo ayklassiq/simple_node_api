@@ -30,7 +30,7 @@ jobs:
           USERNAME: ${{ secrets.EC2_USER }}
           KEY: ${{ secrets.EC2_KEY }}
         run:
-          # echo "${KEY}" > key.pem
+          echo "${KEY}" > key.pem
           # chmod 400 key.pem
           ssh -o StrictHostKeyChecking=no -i key.pem "${USERNAME}@${HOST}" << 'EOF'
           cd /home/ec2-user/simple_node_api || exit
