@@ -18,7 +18,7 @@ app.get("/", (req, res) => {
 app.get("/api", (req, res) => {
   res.json({
     message:
-      "Welcome to the API! i love you and you doing well thanks  brozay  work hard ",
+      "Welcome to the API! i love you and you doing well thanks  brozay  work hard well ",
   });
 });
 
