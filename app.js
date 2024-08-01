@@ -2,7 +2,7 @@
 
 const express = require("express");
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 // Middleware to parse JSON bodies
 app.use(express.json());
@@ -14,7 +14,7 @@ app.get("/", (req, res) => {
 
 // Another route for demonstration
 app.get("/api", (req, res) => {
-  res.json({ message: "Welcome to the API!" });
+  res.json({ message: "Welcome to the API! " });
 });
 
 // Start the server
