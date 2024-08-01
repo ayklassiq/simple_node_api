@@ -32,8 +32,8 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no -i "${KEY}" "${USERNAME}@${HOST}" << 'EOF'
           pm2 stop all
-          cd /home/ec2-user/app
+          cd /home/ec2-user/simple_node_api
           git pull origin main
           npm install
-          pm2 start index.js
+          node start app.js
           EOF
