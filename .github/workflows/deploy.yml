@@ -31,17 +31,13 @@ jobs:
           USERNAME: ${{ secrets.EC2_USER }}
           KEY: ${{ secrets.EC2_KEY }}
         run: |
-          # Create the SSH key file
           echo "$KEY" | tr -d '\r' > key.pem
           chmod 400 key.pem
-          
-          # Execute commands on the EC2 instance
-          ssh -o StrictHostKeyChecking=no -i key.pem "$USERNAME@$HOST" << 'EOF'
-cd /home/ec2-user/simple_node_api || exit
-git pull origin main
-npm install
-# Start the Node.js application in the background
-nohup node app.js > app.log 2>&1 &
+          ssh -i key.pem "$USERNAME@$HOST" << 'EOF'
+            cd simple_node_api | exit
+            git pull origin main
+            npm install
+            node app.js > app.log 2>&1 &
 EOF
 
       - name: Clean up SSH key
