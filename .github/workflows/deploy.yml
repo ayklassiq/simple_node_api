@@ -1,3 +1,48 @@
+# name: Deploy to AWS EC2
+
+# on:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+#     environment:
+#       name: EC2_KEY
+
+
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
+
+#       - name: Set up Node.js
+#         uses: actions/setup-node@v2
+#         with:
+#           node-version: "14"
+
+#       - name: Install dependencies
+#         run: npm install
+
+#       - name: Deploy to EC2
+#         env:
+#           HOST: ${{ secrets.EC2_HOST }}
+#           USERNAME: ${{ secrets.EC2_USER }}
+#           KEY: ${{ secrets.EC2_KEY }}
+#         run: |
+          
+         
+#         #Create the SSH key file
+#           # echo "$KEY" | tr -d '\r' > key.pem
+#           # chmod 400 key.pem
+          
+#           # Execute commands on the EC2 instance
+#           ssh -o StrictHostKeyChecking=no -i key.pem "$USERNAME@$HOST" << EOF
+#           cd /home/ec2-user/simple_node_api
+#           git pull origin main
+#           npm install
+#           node app.js
+# EOF
 name: Deploy to AWS EC2
 
 on:
@@ -8,9 +53,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment:
-      name: EC2_KEY
-
 
     steps:
       - name: Checkout code
@@ -24,22 +66,28 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      # Uncomment this if you have tests to run
+      # - name: Run tests
+      #   run: npm test
+
       - name: Deploy to EC2
         env:
           HOST: ${{ secrets.EC2_HOST }}
           USERNAME: ${{ secrets.EC2_USER }}
           KEY: ${{ secrets.EC2_KEY }}
         run: |
-          
-         
-        #Create the SSH key file
-          # echo "$KEY" | tr -d '\r' > key.pem
-          # chmod 400 key.pem
+          # Create the SSH key file
+          echo "$KEY" | tr -d '\r' > key.pem
+          chmod 400 key.pem
           
           # Execute commands on the EC2 instance
           ssh -o StrictHostKeyChecking=no -i key.pem "$USERNAME@$HOST" << EOF
           cd /home/ec2-user/simple_node_api
           git pull origin main
           npm install
-          node app.js
+          pm2 stop all || true
+          pm2 start app.js --name "simple_node_api"
 EOF
+
+      - name: Clean up SSH key
+        run: rm -f key.pem
