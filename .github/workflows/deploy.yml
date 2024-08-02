@@ -1,3 +1,47 @@
+# name: Deploy to AWS EC2
+
+# on:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
+
+#       - name: Set up Node.js
+#         uses: actions/setup-node@v2
+#         with:
+#           node-version: "14"
+
+#       - name: Install dependencies
+#         run: npm install
+
+#       # Uncomment this if you have tests to run
+#       # - name: Run tests
+#       #   run: npm test
+
+#       - name: Deploy to EC2
+#         env:
+#           HOST: ${{ secrets.EC2_HOST }}
+#           USERNAME: ${{ secrets.EC2_USER }}
+#           KEY: ${{ secrets.EC2_KEY }}
+#         run: |
+#           echo "$KEY" | tr -d '\r' > key.pem
+#           chmod 400 key.pem
+#           ssh -i key.pem "$USERNAME@$HOST" << 'EOF'
+#             cd simple_node_api | exit
+#             git pull origin main
+#             npm install
+#             node app.js > app.log 2>&1 &
+# EOF
+
+#       - name: Clean up SSH key
+#         run: rm -f key.pem
 name: Deploy to AWS EC2
 
 on:
@@ -26,18 +70,49 @@ jobs:
       #   run: npm test
 
       - name: Deploy to EC2
-        env:
-          HOST: ${{ secrets.EC2_HOST }}
-          USERNAME: ${{ secrets.EC2_USER }}
-          KEY: ${{ secrets.EC2_KEY }}
         run: |
-          echo "$KEY" | tr -d '\r' > key.pem
+          # Hard-coded SSH key, host, and username
+          HOST="your-ec2-public-dns"
+          USERNAME="ec2-user"
+          KEY="-----BEGIN RSA PRIVATE KEY-----
+MIIEowIBAAKCAQEAg8cln6kK3/FxTFYnI0/RVl8BnHc0UiaoXdPdIffrrbd+OXo9
+V/hTEvDRTjG5ELDl8miYkdJP6wFkYJKGJIBEBrCWtZn1duX92YzVah8Sun4mv7cH
+ydNSbOTCrbYe2fcDgQYXTTtFE238LiiVy+zN4/yp/2FULwm9bW/MXQwTvuTKvtxD
+izpibZlP5sws7n6k/yYvzorY9ofgCje+olGnrAK0y0XTZqf0M6QpNzZovARDUaaR
+myGILG3sYQBnrlIafeixc/mUH+t5s09/e/W/t4NMtU2RQTGtUw8pmxd8UGtClF3C
+xNEVkhXY3JchcM540VR4o4jo+Xa5Pr3wX1/1gQIDAQABAoIBAHjRPydw3q2POacZ
+Xey8I1ui42FG0Ut4cekEc7vPB99PWoTsFA3xeIjnDZ85a0loRorHZwpa3jbCIfuA
+m0gf6T6Q7Lw3GZwXJXQt8QTI1GzzeCdRceySuQFpgyuszABevnGu2fJPIve7YPgY
+8a3zwJkEb//ahkpSDcCmPaIZjoj29wpCZTuEQcBH6DfBakSth6nRGjL+gKLABa9f
+3QTW1Ql9YpqBXW9uZtv+UQN0BsGRgJHb5ERhhUvT76zxFJh5284CzZTZB1hmmg1y
+Nj9aVId/UZTQFJmBLkzEiuOcTmWIrSsTMKoFZQry/jmriR/YbyqNz3gvulX433uy
+1jNF8lkCgYEA4bbKmR7N2bCInUGZX4VoizQVsVoM82nT1Las+wCQE8FtQJ34Vd9x
+Di5gVPuZVh9tg4QMal1NUZ0XsPZwIrVFz+iFchzUk4Sl15DiNXUvZKNa8MNSfS4R
++ZkF8CW8wuMorUBgkgaltmJIJEXOxf18nVlootmg23mWnH6T/Z1uVCcCgYEAlXWt
+txPoo4svHbkfVN7OdCdpvn2oUy1QqRsgKc48rtVL1uczF5hcEP/ZWnVh4Ca9nQxX
+WOA5sUiqe4aCdWrUHnHX7/e48fprRxg522Pdl+c597x+wf4WDGf9uO8H6FPli/bk
+7pALWntKv3NaVELjOSmXR6o6dVBHo0ELX/sYKhcCgYEAs/IeouRECIEM6RIbTGP3
+bMMhaDr6iDSehL7+OT3Bn35ds149VXjFkSC3/Ah5vodfr7HelA2+ToqHELXnwEP0
+XERr3wXNE6506N7A+Q1rszfokHmnkdTgz7SHX2U2j8i57SWd180k37qK+SAOMRpd
+9rQJD4uhClhtEmZ3ZYHVK5ECgYAxJdx1Gq/ir89Tl9+sugPsAFXulUW37Gvc4BWo
+ibA80dk5lxefB7QmxuuDqpv/6N1renZyvHFcUgf1zNqzn+iXBlq7B5wivnVukJHe
+Ci4BWMEgLTUFt/cqJzwxBzFzfbs7Vnob1PRW0bpX0KgAk2pDDuE3aMwGbdrQ3X/P
+FTPyCwKBgHI9rJ/aGwjnY/vOUJbNi4/UCpXsggo5C3+ec7kXpGo0G55W/fbcEiU4
+Ruvig1OAaZE6ok7uemvPngvOw87O9r2PdwVKP2irBWMK6z+qVskuhXezrUz5CXmp
+JSkxC/4x0eYnYzZb2BLSkTVQy36nsfnLfX7mZ8oGl60CAJaWTgxL
+-----END RSA PRIVATE KEY-----"
+
+          # Create the SSH key file
+          echo "$KEY" > key.pem
           chmod 400 key.pem
-          ssh -i key.pem "$USERNAME@$HOST" << 'EOF'
-            cd simple_node_api | exit
-            git pull origin main
-            npm install
-            node app.js > app.log 2>&1 &
+
+          # Execute commands on the EC2 instance
+          ssh -o StrictHostKeyChecking=no -i key.pem "$USERNAME@$HOST" << 'EOF'
+cd /home/ec2-user/simple_node_api || exit
+git pull origin main
+npm install
+# Start the Node.js application in the background
+nohup node app.js > app.log 2>&1 &
 EOF
 
       - name: Clean up SSH key
