@@ -39,9 +39,9 @@ jobs:
           
           # Execute commands on the EC2 instance
           ssh -o StrictHostKeyChecking=no -i key.pem "$USERNAME@$HOST" << EOF
-          cd /home/ec2-user/simple_node_api || exit
+          cd /home/ec2-user/simple_node_api
           git pull origin main
           npm install
-          pm2 stop all || true
+          pm2 stop app.js
           pm2 start app.js 
 EOF
