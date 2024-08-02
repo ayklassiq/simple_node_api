@@ -64,11 +64,11 @@ jobs:
 
           # Execute commands on the EC2 instance
           ssh -o StrictHostKeyChecking=no -i key.pem "$USERNAME@$HOST" << 'EOF'
-cd /home/ec2-user/simple_node_api || exit
-git pull origin main
-npm install
-# Start the Node.js application in the background
-nohup node app.js > app.log 2>&1 &
+           cd /home/ec2-user/simple_node_api || exit
+           git pull origin main
+           npm install
+        # Start the Node.js application in the background
+           nohup node app.js > app.log 2>&1 &
 EOF
 
       - name: Clean up SSH key
