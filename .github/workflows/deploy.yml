@@ -33,7 +33,9 @@ jobs:
           USERNAME: ${{ secrets.EC2_USER }}
           KEY: ${{ secrets.EC2_KEY }}
         run: |
-          # Create the SSH key file
+          
+         
+        #Create the SSH key file
           echo "$KEY" | tr -d '\r' > key.pem
           chmod 400 key.pem
           
