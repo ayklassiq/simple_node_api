@@ -72,9 +72,9 @@ jobs:
       - name: Deploy to EC2
         run: |
           # Hard-coded SSH key, host, and username
-          HOST="your-ec2-public-dns"
+          HOST="35.178.85.161"
           USERNAME="ec2-user"
-          KEY="-----BEGIN RSA PRIVATE KEY-----
+          KEY:"-----BEGIN RSA PRIVATE KEY-----
 MIIEowIBAAKCAQEAg8cln6kK3/FxTFYnI0/RVl8BnHc0UiaoXdPdIffrrbd+OXo9
 V/hTEvDRTjG5ELDl8miYkdJP6wFkYJKGJIBEBrCWtZn1duX92YzVah8Sun4mv7cH
 ydNSbOTCrbYe2fcDgQYXTTtFE238LiiVy+zN4/yp/2FULwm9bW/MXQwTvuTKvtxD
