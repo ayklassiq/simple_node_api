@@ -51,6 +51,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment:
+      - name: EC2_KEY
 
     steps:
       - name: Checkout code
