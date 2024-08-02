@@ -11,7 +11,6 @@
 #     environment:
 #       name: EC2_KEY
 
-
 #     steps:
 #       - name: Checkout code
 #         uses: actions/checkout@v2
@@ -30,12 +29,11 @@
 #           USERNAME: ${{ secrets.EC2_USER }}
 #           KEY: ${{ secrets.EC2_KEY }}
 #         run: |
-          
-         
+
 #         #Create the SSH key file
 #           # echo "$KEY" | tr -d '\r' > key.pem
 #           # chmod 400 key.pem
-          
+
 #           # Execute commands on the EC2 instance
 #           ssh -o StrictHostKeyChecking=no -i key.pem "$USERNAME@$HOST" << EOF
 #           cd /home/ec2-user/simple_node_api
@@ -79,15 +77,10 @@ jobs:
           # Create the SSH key file
           echo "$KEY" | tr -d '\r' > key.pem
           chmod 400 key.pem
-          
+
           # Execute commands on the EC2 instance
-          ssh -o StrictHostKeyChecking=no -i key.pem "$USERNAME@$HOST" << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i key.pem "$USERNAME@$HOST"
             cd /home/ec2-user/simple_node_api || exit
             git pull origin main
             npm install
-            pm2 stop all || true
-            pm2 start app.js --name "simple_node_api"
-EOF
-
-      - name: Clean up SSH key
-        run: rm -f key.pem
+            node app.js
