@@ -85,9 +85,6 @@ jobs:
           cd /home/ec2-user/simple_node_api
           git pull origin main
           npm install
-          pm2 stop all || true
-          pm2 start app.js --name "simple_node_api"
+          node app.js --name "simple_node_api"
 EOF
 
-      - name: Clean up SSH key
-        run: rm -f key.pem
