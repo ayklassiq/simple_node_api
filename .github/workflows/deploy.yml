@@ -36,8 +36,8 @@ jobs:
           
          
         #Create the SSH key file
-          echo "$KEY" | tr -d '\r' > key.pem
-          chmod 400 key.pem
+          # echo "$KEY" | tr -d '\r' > key.pem
+          # chmod 400 key.pem
           
           # Execute commands on the EC2 instance
           ssh -o StrictHostKeyChecking=no -i key.pem "$USERNAME@$HOST" << EOF
@@ -45,5 +45,5 @@ jobs:
           git pull origin main
           npm install
           pm2 stop app.js
-          pm2 start app.js 
+          pm2 start app.js
 EOF
